@@ -8,7 +8,8 @@
 	"extensions": [
 		"visualstudioexptteam.vscodeintellicode",
 		"ms-azuretools.vscode-docker",
-		"eamodio.gitlens"
+		"eamodio.gitlens",
+		"vscode-icons-team.vscode-icons"
 	],
 	"settings": {
 		"python.pythonPath": "/usr/local/bin/python",
