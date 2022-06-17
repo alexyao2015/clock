@@ -9,7 +9,8 @@
 		"visualstudioexptteam.vscodeintellicode",
 		"ms-azuretools.vscode-docker",
 		"eamodio.gitlens",
-		"vscode-icons-team.vscode-icons"
+		"vscode-icons-team.vscode-icons",
+		"Vue.volar"
 	],
 	"settings": {
 		"python.pythonPath": "/usr/local/bin/python",
