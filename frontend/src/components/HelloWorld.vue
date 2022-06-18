@@ -8,6 +8,7 @@ const count = ref(0)
 
 <template>
   <h1>{{ msg }}</h1>
+  <v-text-field label="Name"></v-text-field>
 
   <p>
     Recommended IDE setup:

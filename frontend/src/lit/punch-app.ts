@@ -13,7 +13,7 @@ export class PunchApp extends LitElement {
     super.connectedCallback();
     this.interval = setInterval(() => {
       this.time = new Date().toLocaleTimeString();
-    }, 1000);
+    }, 250);
   }
   disconnectedCallback() {
     clearInterval(this.interval);
