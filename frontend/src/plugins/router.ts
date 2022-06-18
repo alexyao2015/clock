@@ -3,16 +3,18 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from "vue-router";
-
-const Hello = { template: "<div>Home</div>" };
-const Foo = { template: "<div>Foo</div>" };
+import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
 
 const routes = [
-  { path: "/hello", component: Hello },
-  { path: "/foo", component: Foo },
+  { path: "/", component: Home },
+  { path: "/login", component: Login },
+  { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+export default router;

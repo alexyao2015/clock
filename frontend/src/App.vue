@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import './lit/punch-app';
+import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <punch-app></punch-app>
-  <router-link to="/hello">Hello</router-link>
-  <router-link to="/foo">Foo</router-link>
-  <router-view></router-view>
+  <v-app>
+    <Navbar />
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
 <style>
-#app {
+:root {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

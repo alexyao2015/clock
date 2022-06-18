@@ -8,12 +8,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mdi/font": "^6.7.96",
     "lit": "^2.2.6",
     "vue": "^3.2.25",
     "vue-router": "4",
     "vuetify": "^3.0.0-beta.4"
   },
   "devDependencies": {
+    "@mdi/js": "^6.7.96",
     "@types/node": "^18.0.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vuetify/vite-plugin": "^1.0.0-alpha.11",
