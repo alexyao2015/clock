@@ -3,6 +3,7 @@
 	"dockerComposeFile": [
 		"docker-compose.yml"
 	],
+	"postCreateCommand": ".devcontainer/post-install",
 	"service": "app",
 	"workspaceFolder": "/workspace",
 	"extensions": [
