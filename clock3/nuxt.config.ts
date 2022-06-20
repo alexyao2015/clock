@@ -11,15 +11,15 @@ export default defineNuxtConfig({
     ssr: {
       noExternal: ["vuetify"],
     },
-    //   server: {
-    //     port: 3000,
-    //     hmr: {
-    //       protocol: "wss",
-    //       clientPort: 443,
-    //       port: 3001,
-    //       host: "alexyao2015-clock-xx66g9vv3pjq4-3001.githubpreview.dev",
-    //     },
-    //   },
+      server: {
+        // port: 3000,
+        hmr: {
+          protocol: "wss",
+          clientPort: 443,
+          port: 3001,
+          // host: "alexyao2015-clock-9wvvgqjj3xx4v-3001.githubpreview.dev",
+        },
+      },
   },
   modules: [
     async (options, nuxt) => {
