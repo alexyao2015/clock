@@ -11,7 +11,8 @@
 		"ms-azuretools.vscode-docker",
 		"eamodio.gitlens",
 		"vscode-icons-team.vscode-icons",
-		"Vue.volar"
+		"Vue.volar",
+		"esbenp.prettier-vscode"
 	],
 	"settings": {
 		"python.pythonPath": "/usr/local/bin/python",

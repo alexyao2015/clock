@@ -6,7 +6,7 @@ import {
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 
-const routes = [
+export const routes = [
   { path: "/", component: Home },
   { path: "/login", component: Login },
   { path: "/:pathMatch(.*)*", redirect: "/" },
