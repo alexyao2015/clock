@@ -9,6 +9,7 @@
   "devDependencies": {
     "@mdi/js": "^6.7.96",
     "nuxt": "3.0.0-rc.4",
+    "sass": "^1.52.3",
     "vite-plugin-vuetify": "^1.0.0-alpha.12"
   },
   "dependencies": {

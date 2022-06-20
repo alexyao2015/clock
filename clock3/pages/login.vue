@@ -10,49 +10,24 @@ const onSubmit = (e: Event) => {
   login_success.value = false;
   console.log(props.employee_id);
 };
+
+const button_state = useState("button_state", () => 1);
 </script>
 
 <template>
-  <v-container fluid>
+  <v-col cols="8" xs="12">
     <v-form class="employee-form" v-model="valid" @submit.prevent="onSubmit">
       <v-text-field
         v-model="employee_id"
-        class="text-field"
         label="Employee ID"
         :rules="[(v) => !!v || 'This field is required']"
         required
       ></v-text-field>
-      <v-btn
-        color="primary"
-        type="submit"
-        :disabled="!valid"
-        class="form-button"
-        >Submit</v-btn
-      >
+      <v-btn color="primary" type="submit" :disabled="!valid">Submit</v-btn>
     </v-form>
     <v-alert v-if="!login_success" class="alert" border type="error"
       >Login Failed</v-alert
     >
-  </v-container>
+    <v-btn color="primary" @click="button_state++">{{ button_state }}</v-btn>
+  </v-col>
 </template>
-
-<style scoped>
-.employee-form {
-  padding-left: 40px;
-  text-align: left;
-}
-.text-field {
-  width: 400px;
-}
-.form-button {
-  text-align: center;
-  width: 100px;
-}
-.alert {
-  width: 400px;
-  margin-top: 20px;
-  margin-left: 40px;
-  padding-left: 0px;
-  text-align: center;
-}
-</style>

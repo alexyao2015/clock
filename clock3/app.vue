@@ -3,7 +3,7 @@
     <v-app>
       <v-main>
         <Navbar />
-        <NuxtPage></NuxtPage>
+        <NuxtPage class="inner-page"></NuxtPage>
       </v-main>
     </v-app>
   </div>
@@ -23,5 +23,9 @@ html {
 }
 .v-application__wrap {
   min-height: unset !important;
+}
+.inner-page {
+  padding-top: 40px;
+  padding-left: 40px;
 }
 </style>

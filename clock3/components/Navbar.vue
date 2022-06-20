@@ -4,7 +4,6 @@ import { mdiAlarm, mdiAccount } from "@mdi/js";
 const router = useRouter();
 
 const visit = (path: string) => {
-  console.log("test");
   router.push(path);
 };
 </script>
