@@ -10,12 +10,10 @@ const onSubmit = (e: Event) => {
   login_success.value = false;
   console.log(props.employee_id);
 };
-
-const button_state = useState("button_state", () => 1);
 </script>
 
 <template>
-  <v-col cols="8" xs="12">
+  <v-col cols="12" md="4">
     <v-form class="employee-form" v-model="valid" @submit.prevent="onSubmit">
       <v-text-field
         v-model="employee_id"
@@ -28,6 +26,5 @@ const button_state = useState("button_state", () => 1);
     <v-alert v-if="!login_success" class="alert" border type="error"
       >Login Failed</v-alert
     >
-    <v-btn color="primary" @click="button_state++">{{ button_state }}</v-btn>
   </v-col>
 </template>

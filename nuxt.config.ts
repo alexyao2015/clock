@@ -8,20 +8,20 @@ export default defineNuxtConfig({
     //   sourcemap: "inline",
     // },
     build: {
-      transpile: ['vuetify'],
+      transpile: ["vuetify"],
     },
     ssr: {
       noExternal: ["vuetify"],
     },
-      server: {
-        // port: 3000,
-        hmr: {
-          // protocol: "wss",
-          clientPort: 3001,
-          port: 3001,
-          // host: "alexyao2015-clock-9wvvgqjj3xx4v-3001.githubpreview.dev",
-        },
+    server: {
+      // port: 3000,
+      hmr: {
+        // protocol: "wss",
+        clientPort: 3001,
+        port: 3001,
+        // host: "alexyao2015-clock-9wvvgqjj3xx4v-3001.githubpreview.dev",
       },
+    },
   },
   modules: [
     async (options, nuxt) => {
@@ -29,5 +29,9 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }))
       );
     },
+    "@pinia/nuxt",
   ],
+  nitro: {
+    plugins: ["~/server/index.ts"],
+  },
 });

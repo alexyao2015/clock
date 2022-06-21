@@ -1,3 +1,5 @@
-export default defineEventHandler((event) => {
-  return { api: "works" };
+import { models } from "../index";
+
+export default defineEventHandler(async (event) => {
+  return { api: await models.User.findAll() };
 });

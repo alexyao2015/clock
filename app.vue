@@ -1,11 +1,8 @@
 <template>
   <div>
-    <v-app>
-      <v-main>
-        <Navbar />
-        <NuxtPage class="inner-page"></NuxtPage>
-      </v-main>
-    </v-app>
+    <NuxtLayout>
+      <NuxtPage class="inner-page"></NuxtPage>
+    </NuxtLayout>
   </div>
 </template>
 
@@ -25,7 +22,6 @@ html {
   min-height: unset !important;
 }
 .inner-page {
-  padding-top: 40px;
-  padding-left: 40px;
+  padding: 40px;
 }
 </style>
