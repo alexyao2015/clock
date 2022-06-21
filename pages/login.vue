@@ -6,9 +6,12 @@ const props = defineProps({
 
 const login_success = useState("login_success", () => true);
 
-const onSubmit = (e: Event) => {
-  login_success.value = false;
-  console.log(props.employee_id);
+const onSubmit = async (e: Event) => {
+  const { data, pending, error, refresh } = await useFetch("/api/login", {
+    method: "POST",
+    params: { employee_id: props.employee_id },
+  });
+  login_success.value = data.value.authorized;
 };
 </script>
 
