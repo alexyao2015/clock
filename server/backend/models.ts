@@ -1,4 +1,6 @@
 import { sequelize } from "./connection";
+import { PunchActions } from "../../enum/punchActions";
+
 import {
   Model,
   DataTypes,
@@ -18,7 +20,7 @@ interface User
   lunchActive: boolean;
 }
 
-const User = sequelize.define<User>(
+export const User = sequelize.define<User>(
   "User",
   {
     employeeID: {
@@ -57,16 +59,10 @@ const User = sequelize.define<User>(
 interface PunchLog
   extends Model<InferAttributes<PunchLog>, InferCreationAttributes<PunchLog>> {
   employeeID: CreationOptional<string>;
-  action:
-    | "punchIn"
-    | "punchOut"
-    | "breakIn"
-    | "breakOut"
-    | "lunchIn"
-    | "lunchOut";
+  action: PunchActions;
 }
 
-const PunchLog = sequelize.define(
+export const PunchLog = sequelize.define(
   "PunchLog",
   {
     employeeID: {
@@ -74,11 +70,16 @@ const PunchLog = sequelize.define(
       allowNull: false,
     },
     action: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(
+        "punchIn",
+        "punchOut",
+        "breakIn",
+        "breakOut",
+        "lunchIn",
+        "lunchOut"
+      ),
       allowNull: false,
     },
   },
   {}
 );
-
-export default { User, PunchLog };

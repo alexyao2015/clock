@@ -15,9 +15,9 @@ const visit = (path: string) => {
         <v-icon :icon="mdiAlarm"></v-icon>
         Punch
       </v-tab>
-      <v-tab @click="visit('/login')">
+      <v-tab @click="visit('/register')">
         <v-icon :icon="mdiAccount"></v-icon>
-        Account
+        Register
       </v-tab>
     </v-tabs>
   </v-app-bar>
