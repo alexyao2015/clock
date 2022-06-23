@@ -1,21 +1,14 @@
-import { Sequelize } from "sequelize";
+import { PrismaClient } from "@prisma/client";
 
-let sequelize: Sequelize;
+let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === "production") {
-  sequelize = new Sequelize("postgres", "postgres", "postgres", {
-    host: "db",
-    dialect: "postgres",
-    logging: false,
-  });
+  prisma = new PrismaClient();
 } else {
-  if (!global.sequelize) {
-    global.sequelize = new Sequelize("postgres", "postgres", "postgres", {
-      host: "db",
-      dialect: "postgres",
-    });
+  if (!global.prisma) {
+    global.prisma = new PrismaClient();
   }
-  sequelize = global.sequelize;
+  prisma = global.prisma;
 }
-
-export default sequelize;
+console.log("Prisma ready");
+export default prisma;

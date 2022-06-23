@@ -12,7 +12,8 @@
 		"eamodio.gitlens",
 		"vscode-icons-team.vscode-icons",
 		"Vue.volar",
-		"esbenp.prettier-vscode"
+		"esbenp.prettier-vscode",
+		"Prisma.prisma"
 	],
 	"settings": {
 		"python.pythonPath": "/usr/local/bin/python",

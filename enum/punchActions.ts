@@ -1,8 +1,8 @@
 export enum PunchActions {
-  "punchIn",
-  "punchOut",
-  "breakIn",
-  "breakOut",
-  "lunchIn",
-  "lunchOut",
+  "punchIn" = "punchIn",
+  "punchOut" = "punchOut",
+  "breakIn" = "breakIn",
+  "breakOut" = "breakOut",
+  "lunchIn" = "lunchIn",
+  "lunchOut" = "lunchOut",
 }

@@ -1,4 +1,4 @@
-import { User } from "../backend/models";
+import { prisma } from "../index";
 
 interface LoginQuery {
   employee_id?: string;
@@ -14,7 +14,7 @@ interface Response {
 export default defineEventHandler(async (event): Promise<Response> => {
   const body: LoginQuery = await useBody(event);
 
-  const result = await User.findOne({
+  const result = await prisma.users.findUnique({
     where: { employeeID: body.employee_id },
   });
   if (result !== null) {

@@ -1,4 +1,4 @@
-import { User, PunchLog } from "../../backend/models";
+import { prisma } from "../../index";
 import { PunchActions } from "../../../enum/punchActions";
 
 interface ActionQuery {
@@ -13,7 +13,7 @@ interface Response {
 export default defineEventHandler(async (event): Promise<Response> => {
   const body: ActionQuery = await useBody(event);
 
-  const result = await User.findOne({
+  const result = await prisma.users.findUnique({
     where: { employeeID: body.employee_id },
   });
   if (result === null || !(body.action in PunchActions)) {
@@ -30,10 +30,10 @@ export default defineEventHandler(async (event): Promise<Response> => {
     ) {
       return { success: false };
     }
-    await User.update(
-      { workShiftActive: body.action === PunchActions.punchIn },
-      { where: { employeeID: body.employee_id } }
-    );
+    await prisma.users.update({
+      where: { employeeID: body.employee_id },
+      data: { workShiftActive: body.action === PunchActions.punchIn },
+    });
   } else if (
     [PunchActions.lunchIn, PunchActions.lunchOut].includes(body.action)
   ) {
@@ -41,24 +41,26 @@ export default defineEventHandler(async (event): Promise<Response> => {
     if (!result.workShiftActive || result.breakActive) {
       return { success: false };
     }
-    await User.update(
-      { lunchActive: body.action === PunchActions.lunchIn },
-      { where: { employeeID: body.employee_id } }
-    );
+    await prisma.users.update({
+      where: { employeeID: body.employee_id },
+      data: { lunchActive: body.action === PunchActions.lunchIn },
+    });
   } else {
     // break
     if (!result.workShiftActive || result.lunchActive) {
       return { success: false };
     }
-    await User.update(
-      { breakActive: body.action === PunchActions.breakIn },
-      { where: { employeeID: body.employee_id } }
-    );
+    await prisma.users.update({
+      where: { employeeID: body.employee_id },
+      data: { breakActive: body.action === PunchActions.breakIn },
+    });
   }
   // log action
-  await PunchLog.create({
-    employeeID: body.employee_id,
-    action: body.action,
+  await prisma.logs.create({
+    data: {
+      employeeID: body.employee_id,
+      action: body.action,
+    },
   });
   return { success: true };
 });

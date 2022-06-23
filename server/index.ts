@@ -1,5 +1,7 @@
-import { bootstrap } from "./backend/bootstrap";
+import conn from "./backend/connection";
+
+export const prisma = conn;
 
 export default async () => {
-  await bootstrap();
+  console.log("Server running...");
 };
