@@ -1,4 +1,5 @@
 .config
+.output
 
 # dependencies
 node_modules
