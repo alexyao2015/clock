@@ -6,8 +6,6 @@ interface ActionQuery {
 
 interface Response {
   authorized: boolean;
-  firstName?: string;
-  lastName?: string;
   workShiftActive?: boolean;
   breakActive?: boolean;
   lunchActive?: boolean;
@@ -22,8 +20,6 @@ export default defineEventHandler(async (event): Promise<Response> => {
   if (result !== null) {
     return {
       authorized: true,
-      firstName: result.firstName,
-      lastName: result.lastName,
       workShiftActive: result.workShiftActive,
       breakActive: result.breakActive,
       lunchActive: result.lunchActive,

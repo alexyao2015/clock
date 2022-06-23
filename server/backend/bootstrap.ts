@@ -8,15 +8,15 @@ export const bootstrap = async () => {
     console.error("unable to connect");
   }
   console.log("Connected to database");
-  await User.sync();
-  await PunchLog.sync();
+  await User.sync({ alter: true });
+  await PunchLog.sync({ alter: true });
 
   const [user, created] = await User.findOrCreate({
     where: { employeeID: "admin" },
     defaults: {
       isAdmin: true,
-      firstName: "admin",
-      lastName: "admin",
+      firstName: "First Name (admin)",
+      lastName: "Last Name (admin)",
     },
   });
   if (created) {

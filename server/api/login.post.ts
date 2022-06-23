@@ -7,6 +7,8 @@ interface LoginQuery {
 interface Response {
   authorized: any;
   isAdmin?: boolean;
+  firstName?: string;
+  lastName?: string;
 }
 
 export default defineEventHandler(async (event): Promise<Response> => {
@@ -16,7 +18,12 @@ export default defineEventHandler(async (event): Promise<Response> => {
     where: { employeeID: body.employee_id },
   });
   if (result !== null) {
-    return { authorized: true, isAdmin: result.isAdmin };
+    return {
+      authorized: true,
+      isAdmin: result.isAdmin,
+      firstName: result.firstName,
+      lastName: result.lastName,
+    };
   }
   return { authorized: false };
 });
