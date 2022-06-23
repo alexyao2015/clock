@@ -11,52 +11,54 @@ interface Response {
 }
 
 export default defineEventHandler(async (event): Promise<Response> => {
-  const query: ActionQuery = useQuery(event);
+  const body: ActionQuery = await useBody(event);
 
   const result = await User.findOne({
-    where: { employeeID: query.employee_id },
+    where: { employeeID: body.employee_id },
   });
-  if (result === null || !(query.action in PunchActions)) {
+  if (result === null || !(body.action in PunchActions)) {
     return { success: false };
   }
 
-  if (query.action in [PunchActions.punchIn, PunchActions.punchOut]) {
+  if ([PunchActions.punchIn, PunchActions.punchOut].includes(body.action)) {
     // punch
     if (
-      (query.action === PunchActions.punchIn && result.workShiftActive) ||
-      (query.action === PunchActions.punchOut && !result.workShiftActive) ||
+      (body.action === PunchActions.punchIn && result.workShiftActive) ||
+      (body.action === PunchActions.punchOut && !result.workShiftActive) ||
       result.breakActive ||
       result.lunchActive
     ) {
       return { success: false };
     }
     await User.update(
-      { workShiftActive: query.action === PunchActions.punchIn },
-      { where: { employeeID: query.employee_id } }
+      { workShiftActive: body.action === PunchActions.punchIn },
+      { where: { employeeID: body.employee_id } }
     );
-  } else if (query.action in [PunchActions.lunchIn, PunchActions.lunchOut]) {
+  } else if (
+    [PunchActions.lunchIn, PunchActions.lunchOut].includes(body.action)
+  ) {
     // lunch
-    if (!result.workShiftActive) {
+    if (!result.workShiftActive || result.breakActive) {
       return { success: false };
     }
     await User.update(
-      { lunchActive: query.action === PunchActions.lunchIn },
-      { where: { employeeID: query.employee_id } }
+      { lunchActive: body.action === PunchActions.lunchIn },
+      { where: { employeeID: body.employee_id } }
     );
   } else {
     // break
-    if (!result.workShiftActive) {
+    if (!result.workShiftActive || result.lunchActive) {
       return { success: false };
     }
     await User.update(
-      { breakActive: query.action === PunchActions.breakIn },
-      { where: { employeeID: query.employee_id } }
+      { breakActive: body.action === PunchActions.breakIn },
+      { where: { employeeID: body.employee_id } }
     );
   }
   // log action
   await PunchLog.create({
-    employeeID: query.employee_id,
-    action: query.action,
+    employeeID: body.employee_id,
+    action: body.action,
   });
   return { success: true };
 });

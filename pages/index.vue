@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { useGlobalStore } from "../store/global";
+import { useToastStore, ToastType } from "../store/toast";
+
+const store = useGlobalStore();
+const storeToast = useToastStore();
 
 const props = defineProps({
   valid: Boolean,
@@ -14,7 +18,6 @@ const onSubmit = async (e: Event) => {
     body: { employee_id: props.employee_id },
   });
   if (data.value.authorized) {
-    const store = useGlobalStore();
     store.currentEmployeeID = props.employee_id;
 
     if (data.value.isAdmin) {
@@ -24,7 +27,9 @@ const onSubmit = async (e: Event) => {
     }
     return;
   }
-  login_failed.value = true;
+  storeToast.msg = "Login Failed";
+  storeToast.type = ToastType.alert;
+  storeToast.display = true;
 };
 </script>
 
@@ -39,15 +44,5 @@ const onSubmit = async (e: Event) => {
       ></v-text-field>
       <v-btn color="primary" type="submit" :disabled="!valid">Submit</v-btn>
     </v-form>
-    <ClientOnly>
-      <v-snackbar v-model="login_failed" color="red lighten-2" :timeout="2000">
-        Login Failed
-        <template v-slot:actions>
-          <v-btn color="white" variant="text" @click="login_failed = false">
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
-    </ClientOnly>
   </v-col>
 </template>
