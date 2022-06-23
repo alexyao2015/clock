@@ -1,4 +1,4 @@
-import { sequelize } from "./connection";
+import sequelize from "./connection";
 import { PunchActions } from "../../enum/punchActions";
 
 import {
@@ -62,6 +62,10 @@ interface PunchLog
   action: PunchActions;
 }
 
+// get values for db enum
+let punchActionsObj = Object.keys(PunchActions);
+punchActionsObj = punchActionsObj.slice(0, punchActionsObj.length / 2);
+
 export const PunchLog = sequelize.define(
   "PunchLog",
   {
@@ -70,16 +74,16 @@ export const PunchLog = sequelize.define(
       allowNull: false,
     },
     action: {
-      type: DataTypes.ENUM(
-        "punchIn",
-        "punchOut",
-        "breakIn",
-        "breakOut",
-        "lunchIn",
-        "lunchOut"
-      ),
+      type: DataTypes.ENUM(...punchActionsObj),
       allowNull: false,
     },
   },
   {}
 );
+
+// create relationships
+PunchLog.User = User.hasMany(PunchLog, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+User.PunchLog = PunchLog.belongsTo(User);

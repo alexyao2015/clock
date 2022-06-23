@@ -1,4 +1,4 @@
-import { sequelize } from "./connection";
+import sequelize from "./connection";
 import { User, PunchLog } from "./models";
 
 export const bootstrap = async () => {
@@ -8,8 +8,8 @@ export const bootstrap = async () => {
     console.error("unable to connect");
   }
   console.log("Connected to database");
-  await User.sync({ alter: true });
-  await PunchLog.sync({ alter: true });
+  await User.sync({ force: true });
+  await PunchLog.sync({ force: true });
 
   const [user, created] = await User.findOrCreate({
     where: { employeeID: "admin" },
