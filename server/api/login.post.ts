@@ -14,6 +14,15 @@ interface Response {
 export default defineEventHandler(async (event): Promise<Response> => {
   const body: LoginQuery = await useBody(event);
 
+  // session is dynamically appended to request
+  // @ts-ignore
+  let sess = event.req.session;
+  if (!sess.count) {
+    sess.count = 0;
+  }
+  sess.count++;
+  console.log(sess.count);
+
   const result = await prisma.users.findUnique({
     where: { employeeID: body.employee_id },
   });

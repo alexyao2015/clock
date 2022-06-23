@@ -10,5 +10,4 @@ if (process.env.NODE_ENV === "production") {
   }
   prisma = global.prisma;
 }
-console.log("Prisma ready");
 export default prisma;

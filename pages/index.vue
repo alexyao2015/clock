@@ -34,7 +34,7 @@ const onSubmit = async (e: Event) => {
 </script>
 
 <template>
-  <v-col cols="12" sm="8" md="6" lg="4" xl="2">
+  <v-col cols="12" sm="8" md="6" lg="4" xl="3">
     <v-form class="employee-form" v-model="valid" @submit.prevent="onSubmit">
       <v-text-field
         v-model="employee_id"

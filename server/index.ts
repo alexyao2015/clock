@@ -1,7 +1,10 @@
-import conn from "./backend/connection";
+import Prisma from "./backend/prisma";
+import Redis from "./backend/redis";
 
-export const prisma = conn;
+export const prisma = Prisma;
+export const redis = Redis;
 
 export default async () => {
+  await redis.connect();
   console.log("Server running...");
 };
