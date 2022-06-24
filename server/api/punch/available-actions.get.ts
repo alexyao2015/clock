@@ -1,4 +1,4 @@
-import { prisma } from "../../index";
+import { prisma, util } from "../../index";
 
 interface ActionQuery {
   employee_id?: string;
@@ -11,11 +11,21 @@ interface Response {
   lunchActive?: boolean;
 }
 
+const failedResponse: Response = {
+  authorized: false,
+};
+
 export default defineEventHandler(async (event): Promise<Response> => {
   const query: ActionQuery = useQuery(event);
 
+  let employee_id = util.getSessionEmployeeID(event, query.employee_id);
+
+  if (!employee_id) {
+    return failedResponse;
+  }
+
   const result = await prisma.users.findUnique({
-    where: { employeeID: query.employee_id },
+    where: { employeeID: employee_id },
   });
   if (result !== null) {
     return {
@@ -25,5 +35,5 @@ export default defineEventHandler(async (event): Promise<Response> => {
       lunchActive: result.lunchActive,
     };
   }
-  return { authorized: false };
+  return failedResponse;
 });

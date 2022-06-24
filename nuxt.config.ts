@@ -34,4 +34,5 @@ export default defineNuxtConfig({
   nitro: {
     plugins: ["~/server/index.ts"],
   },
+  ssr: false,
 });

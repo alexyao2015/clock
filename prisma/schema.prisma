@@ -37,6 +37,13 @@ model Users {
   logs Logs[]
 }
 
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
 enum enum_PunchLogs_action {
   punchIn
   punchOut

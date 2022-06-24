@@ -22,7 +22,6 @@ const updateUserState = async () => {
   // fetch available actions
   const { data } = await useFetch("/api/punch/available-actions", {
     method: "GET",
-    params: { employee_id: store.$state.currentEmployeeID },
     server: false,
     cache: "no-store",
     initialCache: false,
@@ -79,25 +78,28 @@ const performAction = async (action: PunchActions) => {
 };
 </script>
 <template>
-  <div class="d-flex align-baseline justify-center button-layout">
-    <v-btn
-      v-for="item in buttonLayout"
-      color="primary"
-      @click="performAction(item.action)"
-      :disabled="item.disabled"
-      >{{ item.name }}</v-btn
-    >
-    <v-progress-circular
-      v-if="buttonLayout.length == 0"
-      indeterminate
-      color="primary"
-    ></v-progress-circular>
-  </div>
+  <v-container fluid>
+    <v-row dense class="d-flex justify-center">
+      <v-btn
+        v-for="item in buttonLayout"
+        class="d-flex justify-center ma-2"
+        color="primary"
+        @click="performAction(item.action)"
+        :disabled="item.disabled"
+        >{{ item.name }}</v-btn
+      >
+      <v-col
+        v-if="buttonLayout.length == 0"
+        class="d-flex justify-center"
+        cols="12"
+      >
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<style scoped lang="scss">
-.button-layout {
-  padding-top: 10px;
-  gap: 1rem;
-}
-</style>
+<style scoped lang="scss"></style>

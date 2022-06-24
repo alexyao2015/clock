@@ -10,8 +10,6 @@ const props = defineProps({
   employee_id: String,
 });
 
-const login_failed = useState("login_failed", () => false);
-
 const onSubmit = async (e: Event) => {
   const { data, pending, error, refresh } = await useFetch("/api/login", {
     method: "POST",
@@ -34,15 +32,17 @@ const onSubmit = async (e: Event) => {
 </script>
 
 <template>
-  <v-col cols="12" sm="8" md="6" lg="4" xl="3">
-    <v-form class="employee-form" v-model="valid" @submit.prevent="onSubmit">
-      <v-text-field
-        v-model="employee_id"
-        label="Employee ID"
-        :rules="[(v) => !!v || 'This field is required']"
-        required
-      ></v-text-field>
-      <v-btn color="primary" type="submit" :disabled="!valid">Submit</v-btn>
-    </v-form>
-  </v-col>
+  <v-row>
+    <v-col cols="12" sm="8" md="6" lg="4" xl="3">
+      <v-form class="employee-form" v-model="valid" @submit.prevent="onSubmit">
+        <v-text-field
+          v-model="employee_id"
+          label="Employee ID"
+          :rules="[(v) => !!v || 'This field is required']"
+          required
+        ></v-text-field>
+        <v-btn color="primary" type="submit" :disabled="!valid">Submit</v-btn>
+      </v-form>
+    </v-col>
+  </v-row>
 </template>

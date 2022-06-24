@@ -1,11 +1,13 @@
 import session from "express-session";
-import sessionRedis from "connect-redis";
-import { redis } from "../index";
-
-let RedisStore = sessionRedis(session);
+import { prisma } from "../index";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
 const s = session({
-  store: new RedisStore({ client: redis }),
+  store: new PrismaSessionStore(prisma, {
+    checkPeriod: 2 * 60 * 1000, //ms
+    dbRecordIdIsSessionId: true,
+    dbRecordIdFunction: undefined,
+  }),
   cookie: {
     maxAge: 5 * 60 * 1000, // 5 minutes
     sameSite: "strict",

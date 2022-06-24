@@ -1,4 +1,4 @@
-import { prisma } from "../index";
+import { prisma, util } from "../index";
 
 interface LoginQuery {
   employee_id?: string;
@@ -11,22 +11,22 @@ interface Response {
   lastName?: string;
 }
 
+const failedResponse: Response = { authorized: false };
+
 export default defineEventHandler(async (event): Promise<Response> => {
   const body: LoginQuery = await useBody(event);
 
-  // session is dynamically appended to request
-  // @ts-ignore
-  let sess = event.req.session;
-  if (!sess.count) {
-    sess.count = 0;
+  let employee_id = util.getSessionEmployeeID(event, body.employee_id);
+
+  if (!employee_id) {
+    return failedResponse;
   }
-  sess.count++;
-  console.log(sess.count);
 
   const result = await prisma.users.findUnique({
-    where: { employeeID: body.employee_id },
+    where: { employeeID: employee_id },
   });
   if (result !== null) {
+    util.setSessionEmployeeID(event, employee_id);
     return {
       authorized: true,
       isAdmin: result.isAdmin,
@@ -34,5 +34,5 @@ export default defineEventHandler(async (event): Promise<Response> => {
       lastName: result.lastName,
     };
   }
-  return { authorized: false };
+  return failedResponse;
 });

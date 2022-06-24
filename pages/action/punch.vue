@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../../store/global";
-
-definePageMeta({
-  middleware: ["authorize"],
+const { data, pending, error, refresh } = await useFetch("/api/login", {
+  method: "POST",
+  server: false,
+  cache: "no-store",
+  initialCache: false,
 });
 
-const store = useGlobalStore();
-
-const logout = () => {
-  store.logout();
+const logout = async () => {
+  await useFetch("/api/logout", {
+    method: "POST",
+    server: false,
+    cache: "no-store",
+    initialCache: false,
+  });
   useRouter().push("/");
 };
 
-const { data, pending, error, refresh } = await useFetch("/api/login", {
-  method: "POST",
-  body: { employee_id: store.$state.currentEmployeeID },
+onBeforeMount(async () => {
+  if (!data.value.authorized) {
+    await logout();
+  }
 });
 </script>
 <template>
