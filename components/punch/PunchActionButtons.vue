@@ -8,11 +8,6 @@ const buttonLayout = useState("buttonLayout", () => {
   return [];
 });
 
-// store data from actions request
-const userData = useState("userData", () => {
-  return {};
-});
-
 const updateUserState = async () => {
   // refresh data from server
 
@@ -24,7 +19,6 @@ const updateUserState = async () => {
     initialCache: false,
   });
 
-  userData.value = data;
   buttonLayout.value = [
     {
       name: data.value.workShiftActive ? "Punch Out" : "Punch In",

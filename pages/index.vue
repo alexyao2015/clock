@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../store/global";
 import { useToastStore, ToastType } from "../store/toast";
 
-const store = useGlobalStore();
 const storeToast = useToastStore();
 
 const props = defineProps({
@@ -14,10 +12,11 @@ const onSubmit = async (e: Event) => {
   const { data, pending, error, refresh } = await useFetch("/api/login", {
     method: "POST",
     body: { employee_id: props.employee_id },
+    server: false,
+    cache: "no-store",
+    initialCache: false,
   });
   if (data.value.authorized) {
-    store.currentEmployeeID = props.employee_id;
-
     if (data.value.isAdmin) {
       useRouter().push("/action/punch");
     } else {
