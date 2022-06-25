@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../../store/global";
 import { useToastStore, ToastType } from "../../store/toast";
 import { PunchActions } from "../../enum/punchActions";
-
-const store = useGlobalStore();
 const storeToast = useToastStore();
 
 // store available buttons and disabled state
@@ -61,7 +58,7 @@ const performAction = async (action: PunchActions) => {
   buttonLayout.value = [];
   const { data } = await useFetch("/api/punch/action", {
     method: "POST",
-    body: { employee_id: store.$state.currentEmployeeID, action: action },
+    body: { action: action },
     server: false,
     cache: "no-store",
     initialCache: false,
@@ -81,13 +78,26 @@ const performAction = async (action: PunchActions) => {
   <v-container fluid>
     <v-row dense class="d-flex justify-center">
       <v-btn
+        class="d-none d-sm-flex justify-center ma-2"
         v-for="item in buttonLayout"
-        class="d-flex justify-center ma-2"
         color="primary"
         @click="performAction(item.action)"
         :disabled="item.disabled"
         >{{ item.name }}</v-btn
       >
+      <v-col
+        class="d-flex d-sm-none justify-center"
+        v-for="item in buttonLayout"
+        cols="12"
+        sm="4"
+      >
+        <v-btn
+          color="primary"
+          @click="performAction(item.action)"
+          :disabled="item.disabled"
+          >{{ item.name }}</v-btn
+        >
+      </v-col>
       <v-col
         v-if="buttonLayout.length == 0"
         class="d-flex justify-center"

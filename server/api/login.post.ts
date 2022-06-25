@@ -5,7 +5,7 @@ interface LoginQuery {
 }
 
 interface Response {
-  authorized: any;
+  authorized: boolean;
   isAdmin?: boolean;
   firstName?: string;
   lastName?: string;
