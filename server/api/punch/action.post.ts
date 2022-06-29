@@ -1,5 +1,5 @@
-import { prisma, util } from "../../index";
-import { PunchActions } from "../../../enum/punchActions";
+import { prisma, getSession } from "../..";
+import { PunchActions } from "../../../util/punchActions";
 
 interface ActionQuery {
   employee_id?: string;
@@ -17,7 +17,7 @@ const failedResponse: Response = {
 export default defineEventHandler(async (event): Promise<Response> => {
   const body: ActionQuery = await useBody(event);
 
-  let employee_id = util.getSessionEmployeeID(event, body.employee_id);
+  let employee_id = body.employee_id || (await getSession(event)).employee_id;
 
   if (!employee_id) {
     return failedResponse;

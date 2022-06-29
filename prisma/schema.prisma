@@ -38,10 +38,10 @@ model Users {
 }
 
 model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String
-  expiresAt DateTime
+  id         Int      @id @default(autoincrement())
+  session_id String   @unique
+  data       String   @default("{}")
+  expiresAt  DateTime
 }
 
 enum enum_PunchLogs_action {

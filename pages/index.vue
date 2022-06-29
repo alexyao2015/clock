@@ -12,7 +12,7 @@ const onSubmit = async (e: Event) => {
   const { data, pending, error, refresh } = await useFetch("/api/login", {
     method: "POST",
     body: { employee_id: props.employee_id },
-    server: false,
+    headers: useRequestHeaders(["cookie"]),
     cache: "no-store",
     initialCache: false,
   });

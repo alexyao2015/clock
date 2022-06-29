@@ -1,4 +1,4 @@
-import { prisma, util } from "../../index";
+import { prisma, getSession } from "../..";
 
 interface ActionQuery {
   employee_id?: string;
@@ -18,7 +18,7 @@ const failedResponse: Response = {
 export default defineEventHandler(async (event): Promise<Response> => {
   const query: ActionQuery = useQuery(event);
 
-  let employee_id = util.getSessionEmployeeID(event, query.employee_id);
+  let employee_id = query.employee_id || (await getSession(event)).employee_id;
 
   if (!employee_id) {
     return failedResponse;

@@ -1,31 +1,25 @@
 <script setup lang="ts">
-const userData = useState("userData", () => {
-  return { firstName: "", lastName: "" };
+definePageMeta({
+  middleware: ["auth"],
 });
 
 const logout = async () => {
   await useFetch("/api/logout", {
     method: "POST",
-    server: false,
+    headers: useRequestHeaders(["cookie"]),
     cache: "no-store",
     initialCache: false,
   });
   useRouter().push("/");
 };
 
-onBeforeMount(async () => {
-  const { data, pending, error, refresh } = await useFetch("/api/login", {
-    method: "POST",
-    server: false,
-    cache: "no-store",
-    initialCache: false,
-  });
+const { data } = await useFetch("/api/login", {
+  method: "POST",
+  headers: useRequestHeaders(["cookie"]),
+});
 
-  if (!data.value.authorized) {
-    await logout();
-  }
-  userData.value.firstName = data.value.firstName;
-  userData.value.lastName = data.value.lastName;
+const userData = useState("userData", () => {
+  return { firstName: data.value.firstName, lastName: data.value.lastName };
 });
 </script>
 <template>

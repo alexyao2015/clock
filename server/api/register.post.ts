@@ -1,4 +1,4 @@
-import { prisma } from "../index";
+import { prisma } from "..";
 
 interface Body {
   employee_id?: string;

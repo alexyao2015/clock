@@ -1,4 +1,4 @@
-import { prisma, util } from "../index";
+import { prisma, getSession, setSession } from "..";
 
 interface LoginQuery {
   employee_id?: string;
@@ -16,7 +16,8 @@ const failedResponse: Response = { authorized: false };
 export default defineEventHandler(async (event): Promise<Response> => {
   const body: LoginQuery = await useBody(event);
 
-  let employee_id = util.getSessionEmployeeID(event, body.employee_id);
+  const session = await getSession(event);
+  const employee_id = body?.employee_id || session.employee_id;
 
   if (!employee_id) {
     return failedResponse;
@@ -26,7 +27,8 @@ export default defineEventHandler(async (event): Promise<Response> => {
     where: { employeeID: employee_id },
   });
   if (result !== null) {
-    util.setSessionEmployeeID(event, employee_id);
+    session.employee_id = employee_id;
+    setSession(event, session);
     return {
       authorized: true,
       isAdmin: result.isAdmin,

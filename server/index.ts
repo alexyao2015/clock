@@ -1,8 +1,4 @@
-import Prisma from "./backend/prisma";
-import Util from "./backend/util";
-
-export const prisma = Prisma;
-export const util = Util;
+export * from "./backend";
 
 export default async () => {
   console.log("Server running...");

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useToastStore, ToastType } from "../../store/toast";
-import { PunchActions } from "../../enum/punchActions";
+import { PunchActions } from "../../util/punchActions";
 const storeToast = useToastStore();
 
 // store available buttons and disabled state
@@ -8,52 +8,51 @@ const buttonLayout = useState("buttonLayout", () => {
   return [];
 });
 
+// fetch available actions
+const { data, refresh } = await useFetch("/api/punch/available-actions", {
+  method: "GET",
+  headers: useRequestHeaders(["cookie"]),
+});
+
 const updateUserState = async () => {
   // refresh data from server
+  await refresh();
 
-  // fetch available actions
-  const { data } = await useFetch("/api/punch/available-actions", {
-    method: "GET",
-    server: false,
-    cache: "no-store",
-    initialCache: false,
-  });
-
-  buttonLayout.value = [
-    {
-      name: data.value.workShiftActive ? "Punch Out" : "Punch In",
-      disabled: data.value.lunchActive || data.value.breakActive,
-      action: data.value.workShiftActive
-        ? PunchActions.punchOut
-        : PunchActions.punchIn,
-    },
-    {
-      name: data.value.lunchActive ? "End Lunch" : "Start Lunch",
-      disabled: !data.value.workShiftActive || data.value.breakActive,
-      action: data.value.lunchActive
-        ? PunchActions.lunchOut
-        : PunchActions.lunchIn,
-    },
-    {
-      name: data.value.breakActive ? "End Break" : "Start Break",
-      disabled: !data.value.workShiftActive || data.value.lunchActive,
-      action: data.value.breakActive
-        ? PunchActions.breakOut
-        : PunchActions.breakIn,
-    },
-  ];
+  if (data.value.authorized) {
+    buttonLayout.value = [
+      {
+        name: data.value.workShiftActive ? "Punch Out" : "Punch In",
+        disabled: data.value.lunchActive || data.value.breakActive,
+        action: data.value.workShiftActive
+          ? PunchActions.punchOut
+          : PunchActions.punchIn,
+      },
+      {
+        name: data.value.lunchActive ? "End Lunch" : "Start Lunch",
+        disabled: !data.value.workShiftActive || data.value.breakActive,
+        action: data.value.lunchActive
+          ? PunchActions.lunchOut
+          : PunchActions.lunchIn,
+      },
+      {
+        name: data.value.breakActive ? "End Break" : "Start Break",
+        disabled: !data.value.workShiftActive || data.value.lunchActive,
+        action: data.value.breakActive
+          ? PunchActions.breakOut
+          : PunchActions.breakIn,
+      },
+    ];
+  }
 };
 
-onMounted(async () => {
-  await updateUserState();
-});
+await updateUserState();
 
 const performAction = async (action: PunchActions) => {
   buttonLayout.value = [];
   const { data } = await useFetch("/api/punch/action", {
     method: "POST",
     body: { action: action },
-    server: false,
+    headers: useRequestHeaders(["cookie"]),
     cache: "no-store",
     initialCache: false,
   });

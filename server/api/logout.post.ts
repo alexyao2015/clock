@@ -1,16 +1,16 @@
-import { util } from "../index";
+import {
+  getSessionID,
+  purgeSession,
+  setSessionCookie,
+  createSession,
+} from "..";
 
 interface Response {
   success: any;
 }
 
 export default defineEventHandler(async (event): Promise<Response> => {
-  // session is dynamically appended to request
-  // @ts-ignore
-  let sess = event.req.session;
-  util.setSessionEmployeeID(event, null);
-  sess.save(() => {
-    sess.regenerate(() => {});
-  });
+  await purgeSession(getSessionID(event));
+  setSessionCookie(event, await createSession());
   return { success: true };
 });
